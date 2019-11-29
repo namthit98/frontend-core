@@ -9,7 +9,7 @@ const monitorReducerEnhancer = createStore => (reducer, initialState, enhancer) 
     const end = performance.now()
     const diff = round(end - start)
 
-    customLog('reducer process time: ' + diff, 'success')
+    customLog('reducer process time: ' + diff + ' ms', diff < 100 ? 'success' : diff < 200 ? 'warning' : 'error')
 
     return newState
   }

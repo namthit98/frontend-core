@@ -1,13 +1,9 @@
-import { createSelector } from 'reselect';
+import { createSelector } from 'reselect'
 
-export const selectTodoReducer = (state) => state.todoReducer;
+export const getTotos = state => state.todoReducer.todos
 
-export const makeSelectNotCompletedTodo = () => createSelector(
-  selectTodoReducer,
-  (todoState) => todoState.todos.filter(todo => !todo.completed)
-);
+export const makeSelectNotCompletedTodo = () =>
+  createSelector([getTotos], todos => todos.filter(todo => !todo.completed))
 
-export const makeSelectCompletedTodo = () => createSelector(
-  selectTodoReducer,
-  (todoState) => todoState.todos.filter(todo => todo.completed)
-);
+export const makeSelectCompletedTodo = () =>
+  createSelector([getTotos], todos => todos.filter(todo => todo.completed))
