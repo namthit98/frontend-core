@@ -62,6 +62,9 @@ module.exports = function(_env, argv) {
         },
       ],
     },
+    resolve: {
+      extensions: ['.js', '.jsx']
+    },
     plugins: [
       isProduction &&
         new MiniCssExtractPlugin({
