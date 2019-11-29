@@ -1,3 +1,5 @@
+import customLog from "../../lib/custom-console-log"
+
 const round = number => Math.round(number * 100) / 100
 
 const monitorReducerEnhancer = createStore => (reducer, initialState, enhancer) => {
@@ -7,7 +9,7 @@ const monitorReducerEnhancer = createStore => (reducer, initialState, enhancer) 
     const end = performance.now()
     const diff = round(end - start)
 
-    console.log('reducer process time:', diff)
+    customLog('reducer process time: ' + diff, 'success')
 
     return newState
   }

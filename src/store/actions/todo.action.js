@@ -6,3 +6,10 @@ export function addTodo(data) {
     payload: data
   }
 }
+
+export function toggleStatus(id) {
+  return {
+    type: actionTypes.TOGGLE_STATUS_TODO,
+    payload: id
+  }
+}

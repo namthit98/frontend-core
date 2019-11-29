@@ -6,6 +6,8 @@ function todoReducer(todoState = initialState, action) {
   switch (action.type) {
     case 'ADD_TODO':
       return addTodo(todoState, action)
+    case 'TOGGLE_STATUS_TODO':
+      return toggleStatus(todoState, action)
     default:
       return todoState
   }
@@ -25,6 +27,18 @@ function addTodo(state, action) {
   })
 
   return updateObject(state, { todos: newTodos })
+}
+
+function toggleStatus(state, action) {
+  const idx = state.todos.findIndex(todo => todo.id === action.payload)
+  const cloneTodos = [...state.todos]
+  cloneTodos[idx] = {
+    ...cloneTodos[idx],
+    completed: !cloneTodos[idx].completed
+  }
+  console.log(cloneTodos, 'fljfls')
+
+  return updateObject(state, { todos: cloneTodos })
 }
 
 export default todoReducer

@@ -1,40 +1,65 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useFormik } from 'formik';
-
+import { useFormik } from 'formik'
 import { TextField, Button, List, ListItem, ListItemText } from '@material-ui/core'
-import { useStyles } from './styles';
-import { addTodo } from '../../store/actions/todo.action';
-import { makeSelectNotCompletedTodo } from './selectors';
+import { useStyles } from './styles'
+import { addTodo, toggleStatus } from '../../store/actions/todo.action'
+import { makeSelectNotCompletedTodo, makeSelectCompletedTodo } from './selectors'
+import { todoSchema } from './validation'
 
 export const Todo = () => {
-  const classes = useStyles();
+  const classes = useStyles()
   const dispatch = useDispatch()
   const notCompletedTodos = useSelector(makeSelectNotCompletedTodo())
+  const completedTodos = useSelector(makeSelectCompletedTodo())
 
-  const formik = useFormik({
+  const {
+    handleSubmit,
+    handleChange,
+    values: formikValues,
+    errors: formikErrors,
+    touched: formikTouched,
+  } = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
+      title: '',
     },
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+    validationSchema: todoSchema,
+    onSubmit: (values, { resetForm }) => {
+      dispatch(
+        addTodo({
+          id: Math.floor(Math.random() * 100),
+          text: values.title,
+        }),
+      )
+      resetForm()
     },
-  });
+  })
 
-  const handleAddTodo = () => {
-    dispatch(addTodo({
-      id: 1,
-      text: 'NamHandsome'
-    }))
+  const handleToggleStatus = id => {
+    dispatch(toggleStatus(id))
   }
 
   return (
     <div className={classes.wrapper}>
-      <TextField type="text" placeholder="Input todo here !!" />
+      <form onSubmit={handleSubmit} autoComplete="off">
+        <TextField
+          name="title"
+          label="Title"
+          onChange={handleChange}
+          value={formikValues.title}
+          type="text"
+          placeholder="Input todo here !!"
+          fullWidth
+          error={formikErrors.title && formikTouched.title}
+          helperText={
+            formikErrors.title && formikTouched.title ? formikErrors.title : null
+          }
+        />
+      </form>
       <br />
-      <Button variant="contained" color="primary" onClick={handleAddTodo}>ADD</Button>
+      <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
+        ADD
+      </Button>
 
       <br />
       <br />
@@ -42,8 +67,16 @@ export const Todo = () => {
 
       <List subheader={<li />}>
         {notCompletedTodos.map(todo => (
-          <ListItem key={`item-${todo.id}`}>
+          <ListItem onClick={() => handleToggleStatus(todo.id)} key={`item-${todo.id}`}>
             <ListItemText primary={todo.text} />
+          </ListItem>
+        ))}
+      </List>
+
+      <List subheader={<li />}>
+        {completedTodos.map(todo => (
+          <ListItem onClick={() => handleToggleStatus(todo.id)} key={`item-${todo.id}`}>
+            <ListItemText primary={<s>{todo.text}</s>} />
           </ListItem>
         ))}
       </List>
