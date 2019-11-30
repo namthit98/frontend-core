@@ -3,8 +3,8 @@ import { Provider } from 'react-redux'
 import { CssBaseline } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { defaultTheme } from './theme'
-import { Todo } from './views/Todo/Todo'
 import configureStore from './store/configureStore'
+import TodoViewContainer from './views/Todo/TodoViewContainer'
 
 const store = configureStore()
 
@@ -16,7 +16,7 @@ const App = () => {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Todo />
+          <TodoViewContainer />
         </ThemeProvider>
       </Provider>
     </div>

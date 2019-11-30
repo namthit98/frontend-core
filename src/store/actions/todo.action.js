@@ -13,3 +13,10 @@ export function toggleStatus(id) {
     payload: id
   }
 }
+
+export function showVisible(type) {
+  return {
+    type: actionTypes.SHOW_VISIBLE,
+    payload: type
+  }
+}

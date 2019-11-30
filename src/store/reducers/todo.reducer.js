@@ -1,5 +1,6 @@
 const initialState = {
   todos: [],
+  visibilityFilter: "ALL"
 }
 
 function todoReducer(todoState = initialState, action) {
@@ -8,6 +9,8 @@ function todoReducer(todoState = initialState, action) {
       return addTodo(todoState, action)
     case 'TOGGLE_STATUS_TODO':
       return toggleStatus(todoState, action)
+    case 'SHOW_VISIBLE':
+      return showVisible(todoState, action)
     default:
       return todoState
   }
@@ -36,9 +39,12 @@ function toggleStatus(state, action) {
     ...cloneTodos[idx],
     completed: !cloneTodos[idx].completed
   }
-  console.log(cloneTodos, 'fljfls')
 
   return updateObject(state, { todos: cloneTodos })
+}
+
+function showVisible(state, action) {
+  return updateObject(state, { visibilityFilter: action.payload })
 }
 
 export default todoReducer

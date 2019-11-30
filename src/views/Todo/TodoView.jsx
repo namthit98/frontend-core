@@ -1,17 +1,12 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import { TextField, Button, List, ListItem, ListItemText } from '@material-ui/core'
 import { useStyles } from './styles'
-import { addTodo, toggleStatus } from '../../store/actions/todo.action'
-import { makeSelectNotCompletedTodo, makeSelectCompletedTodo } from './selectors'
-import { todoSchema } from './validation'
+import { todoSchema } from '../../validations/todo.validation'
 
-export const Todo = () => {
+export const TodoView = ({ todos, addTodo, toggleStatus, showVisible }) => {
   const classes = useStyles()
-  const dispatch = useDispatch()
-  const notCompletedTodos = useSelector(makeSelectNotCompletedTodo())
-  const completedTodos = useSelector(makeSelectCompletedTodo())
+  const [counter, setCounter] = useState(0)
 
   const {
     handleSubmit,
@@ -25,18 +20,20 @@ export const Todo = () => {
     },
     validationSchema: todoSchema,
     onSubmit: (values, { resetForm }) => {
-      dispatch(
-        addTodo({
-          id: Math.floor(Math.random() * 100),
-          text: values.title,
-        }),
-      )
-      resetForm()
+      addTodo({
+        id: Math.floor(Math.random() * 100),
+        text: values.title,
+      }),
+        resetForm()
     },
   })
 
   const handleToggleStatus = id => {
-    dispatch(toggleStatus(id))
+    toggleStatus(id)
+  }
+
+  const handleShowVisible = type => {
+    showVisible(type)
   }
 
   return (
@@ -51,9 +48,7 @@ export const Todo = () => {
           placeholder="Input todo here !!"
           fullWidth
           error={formikErrors.title && formikTouched.title}
-          helperText={
-            formikErrors.title && formikTouched.title ? formikErrors.title : null
-          }
+          helperText={formikErrors.title && formikTouched.title ? formikErrors.title : null}
         />
       </form>
       <br />
@@ -61,22 +56,28 @@ export const Todo = () => {
         ADD
       </Button>
 
-      <br />
-      <br />
-      <br />
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={() => setCounter(counter + 1)}
+      >
+        Increase
+      </Button>
 
-      <List subheader={<li />}>
-        {notCompletedTodos.map(todo => (
+      <p onClick={() => handleShowVisible('ALL')}>ALL</p>
+      <p onClick={() => handleShowVisible('SHOW_COMPLETED')}>SHOW_COMPLETED</p>
+      <p onClick={() => handleShowVisible('SHOW_ACTIVE')}>SHOW_ACTIVE</p>
+
+      {counter}
+
+      <br />
+      <br />
+      <br />
+      <List>
+        {todos.map(todo => (
           <ListItem onClick={() => handleToggleStatus(todo.id)} key={`item-${todo.id}`}>
             <ListItemText primary={todo.text} />
-          </ListItem>
-        ))}
-      </List>
-
-      <List subheader={<li />}>
-        {completedTodos.map(todo => (
-          <ListItem onClick={() => handleToggleStatus(todo.id)} key={`item-${todo.id}`}>
-            <ListItemText primary={<s>{todo.text}</s>} />
           </ListItem>
         ))}
       </List>
