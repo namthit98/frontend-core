@@ -1,5 +1,4 @@
 import produce from 'immer'
-import { ADD_TODO } from './../actions/actionTypes'
 
 const initialState = {
   todos: [],
