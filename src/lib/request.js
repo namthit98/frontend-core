@@ -1,6 +1,8 @@
+import queryString from 'query-string'
+
 /**
- * Client
- * @module Client
+ * Request
+ * @lib Request
  */
 
 export class ServerError extends Error {
@@ -24,6 +26,7 @@ export class ServerError extends Error {
  * @param {Object} options
  * @param {string} [options.method] - Request method ( GET, POST, PUT, ... ).
  * @param {string} [options.payload] - Request body.
+ * @param {Object} [options.query] - Request query.
  * @param {Object} [options.headers] - Authorization
  *
  * @returns {Promise}
@@ -37,6 +40,10 @@ export default function request(url, options) {
 
   if (!url) {
     errors.push('url')
+  }
+
+  if(config.query) {
+    url = `${url}?${queryString.stringify(config.query)}`
   }
 
   if (!config.payload && config.method !== 'GET' && config.method !== 'DELETE') {
