@@ -15,7 +15,7 @@ const App = () => {
   const theme = React.useMemo(() => defaultTheme, [])
 
   return (
-    <div>
+    <>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -31,7 +31,7 @@ const App = () => {
           <TodoView />
         </ThemeProvider>
       </Provider>
-    </div>
+    </>
   )
 }
 
