@@ -5,6 +5,9 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import { defaultTheme } from './theme'
 import configureStore from './store/configureStore'
 import TodoViewContainer from './views/Todo/TodoViewContainer'
+import { ToastContainer } from 'react-toastify'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 const store = configureStore()
 
@@ -16,6 +19,15 @@ const App = () => {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            pauseOnVisibilityChange
+            draggable
+            pauseOnHover
+            newestOnTop
+            closeOnClick
+          />
           <TodoViewContainer />
         </ThemeProvider>
       </Provider>

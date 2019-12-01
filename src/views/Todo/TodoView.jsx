@@ -4,7 +4,7 @@ import { TextField, Button, List, ListItem, ListItemText } from '@material-ui/co
 import { useStyles } from './styles'
 import { todoSchema } from '../../validations/todo.validation'
 
-export const TodoView = ({ todos, addTodo, toggleStatus, showVisible }) => {
+export const TodoView = ({ todos, addTodo, toggleStatus, showVisible, listTodos }) => {
   const classes = useStyles()
   const [counter, setCounter] = useState(0)
 
@@ -21,8 +21,8 @@ export const TodoView = ({ todos, addTodo, toggleStatus, showVisible }) => {
     validationSchema: todoSchema,
     onSubmit: (values, { resetForm }) => {
       addTodo({
-        id: Math.floor(Math.random() * 100),
         text: values.title,
+        completed: false
       }),
         resetForm()
     },
@@ -68,6 +68,8 @@ export const TodoView = ({ todos, addTodo, toggleStatus, showVisible }) => {
       <p onClick={() => handleShowVisible('ALL')}>ALL</p>
       <p onClick={() => handleShowVisible('SHOW_COMPLETED')}>SHOW_COMPLETED</p>
       <p onClick={() => handleShowVisible('SHOW_ACTIVE')}>SHOW_ACTIVE</p>
+
+      <Button onClick={() => listTodos()}>FETCH</Button>
 
       {counter}
 

@@ -1,4 +1,5 @@
 import produce from 'immer'
+import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
   todos: [],
@@ -8,13 +9,17 @@ const initialState = {
 const todoReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case 'ADD_TODO':
-        draft.todos.push({
-          id: action.payload.id,
-          text: action.payload.text,
-          completed: false,
-        })
+      case actionTypes.LIST_TODOS_SUCCESS:
+        draft.todos = action.payload
+        break;
+      case actionTypes.LIST_TODOS_FAILURE:
+        break;
+
+      case actionTypes.CREATE_TODO_SUCCESS:
+        draft.todos.push(action.payload)
         break
+      case actionTypes.CREATE_TODO_FAILURE:
+        break;
 
       case 'TOGGLE_STATUS_TODO':
         const idx = draft.todos.findIndex(todo => todo.id === action.payload)
