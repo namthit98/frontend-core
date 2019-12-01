@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useFormik } from 'formik'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import {
+  listTodos,
+  createTodo,
+  readTodo,
+  updateTodo,
+  deleteTodo,
+} from '../../store/actions/todo.action'
+import { makeTodos, makeGetTodo } from '../../store/selectors/todo.selector'
 import {
   TextField,
   Button,
@@ -14,15 +24,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import { useStyles } from './styles'
 import { todoSchema } from '../../validations/todo.validation'
 
-export const TodoView = ({
-  todos,
-  todo,
-  createTodo,
-  listTodos,
-  readTodo,
-  updateTodo,
-  deleteTodo
-}) => {
+const TodoView = ({ todos, todo, createTodo, listTodos, readTodo, updateTodo, deleteTodo }) => {
   const classes = useStyles()
   const [counter, setCounter] = useState(0)
 
@@ -43,7 +45,7 @@ export const TodoView = ({
       if (todo) {
         updateTodo({
           id: todo.id,
-          ...values
+          ...values,
         })
         return
       }
@@ -52,8 +54,7 @@ export const TodoView = ({
         text: values.text,
         completed: false,
       }),
-
-      resetForm()
+        resetForm()
     },
   })
 
@@ -120,3 +121,16 @@ export const TodoView = ({
     </div>
   )
 }
+
+const mapStateToProps = createStructuredSelector({
+  todos: makeTodos(),
+  todo: makeGetTodo(),
+})
+
+export default connect(mapStateToProps, {
+  listTodos,
+  createTodo,
+  readTodo,
+  updateTodo,
+  deleteTodo,
+})(TodoView)

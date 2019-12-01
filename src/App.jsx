@@ -4,8 +4,8 @@ import { CssBaseline } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { defaultTheme } from './theme'
 import configureStore from './store/configureStore'
-import TodoViewContainer from './views/Todo/TodoViewContainer'
 import { ToastContainer } from 'react-toastify'
+import TodoView from './views/Todo/TodoView'
 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -28,7 +28,7 @@ const App = () => {
             newestOnTop
             closeOnClick
           />
-          <TodoViewContainer />
+          <TodoView />
         </ThemeProvider>
       </Provider>
     </div>
