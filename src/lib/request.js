@@ -6,8 +6,6 @@ import queryString from 'query-string'
  */
 
 export class ServerError extends Error {
-  response
-
   constructor(message) {
     super(message)
 

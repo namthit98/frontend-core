@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from './index'
 import rootSaga from '../sagas/index';
+
 const logger = createLogger({
   duration: true,
   collapsed: true

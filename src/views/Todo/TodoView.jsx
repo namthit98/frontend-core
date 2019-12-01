@@ -18,8 +18,6 @@ export const TodoView = ({
   todos,
   todo,
   createTodo,
-  toggleStatus,
-  showVisible,
   listTodos,
   readTodo,
   updateTodo,
@@ -49,21 +47,15 @@ export const TodoView = ({
         })
         return
       }
+
       createTodo({
         text: values.text,
         completed: false,
       }),
-        resetForm()
+
+      resetForm()
     },
   })
-
-  const handleToggleStatus = id => {
-    toggleStatus(id)
-  }
-
-  const handleShowVisible = type => {
-    showVisible(type)
-  }
 
   useEffect(() => {
     if (todo) {
@@ -99,10 +91,6 @@ export const TodoView = ({
       >
         Increase
       </Button>
-
-      <p onClick={() => handleShowVisible('ALL')}>ALL</p>
-      <p onClick={() => handleShowVisible('SHOW_COMPLETED')}>SHOW_COMPLETED</p>
-      <p onClick={() => handleShowVisible('SHOW_ACTIVE')}>SHOW_ACTIVE</p>
 
       <Button onClick={() => listTodos()}>FETCH</Button>
 

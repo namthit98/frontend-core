@@ -109,17 +109,3 @@ export function deleteTodoFailure() {
     type: actionTypes.DELETE_TODO_FAILURE
   }
 }
-
-export function toggleStatus(id) {
-  return {
-    type: actionTypes.TOGGLE_STATUS_TODO,
-    payload: id
-  }
-}
-
-export function showVisible(type) {
-  return {
-    type: actionTypes.SHOW_VISIBLE,
-    payload: type
-  }
-}
