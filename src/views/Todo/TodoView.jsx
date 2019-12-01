@@ -1,28 +1,57 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useFormik } from 'formik'
-import { TextField, Button, List, ListItem, ListItemText } from '@material-ui/core'
+import {
+  TextField,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
+} from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
 import { useStyles } from './styles'
 import { todoSchema } from '../../validations/todo.validation'
 
-export const TodoView = ({ todos, addTodo, toggleStatus, showVisible, listTodos }) => {
+export const TodoView = ({
+  todos,
+  todo,
+  createTodo,
+  toggleStatus,
+  showVisible,
+  listTodos,
+  readTodo,
+  updateTodo,
+  deleteTodo
+}) => {
   const classes = useStyles()
   const [counter, setCounter] = useState(0)
 
   const {
     handleSubmit,
     handleChange,
+    setFieldValue,
+    resetForm,
     values: formikValues,
     errors: formikErrors,
     touched: formikTouched,
   } = useFormik({
     initialValues: {
-      title: '',
+      text: '',
     },
     validationSchema: todoSchema,
-    onSubmit: (values, { resetForm }) => {
-      addTodo({
-        text: values.title,
-        completed: false
+    onSubmit: values => {
+      if (todo) {
+        updateTodo({
+          id: todo.id,
+          ...values
+        })
+        return
+      }
+      createTodo({
+        text: values.text,
+        completed: false,
       }),
         resetForm()
     },
@@ -36,19 +65,25 @@ export const TodoView = ({ todos, addTodo, toggleStatus, showVisible, listTodos 
     showVisible(type)
   }
 
+  useEffect(() => {
+    if (todo) {
+      setFieldValue('text', todo.text)
+    }
+  }, [todo])
+
   return (
     <div className={classes.wrapper}>
       <form onSubmit={handleSubmit} autoComplete="off">
         <TextField
-          name="title"
+          name="text"
           label="Title"
           onChange={handleChange}
-          value={formikValues.title}
+          value={formikValues.text}
           type="text"
           placeholder="Input todo here !!"
           fullWidth
-          error={formikErrors.title && formikTouched.title}
-          helperText={formikErrors.title && formikTouched.title ? formikErrors.title : null}
+          error={formikErrors.text && formikTouched.text}
+          helperText={formikErrors.text && formikTouched.text ? formikErrors.text : null}
         />
       </form>
       <br />
@@ -78,8 +113,19 @@ export const TodoView = ({ todos, addTodo, toggleStatus, showVisible, listTodos 
       <br />
       <List>
         {todos.map(todo => (
-          <ListItem onClick={() => handleToggleStatus(todo.id)} key={`item-${todo.id}`}>
+          <ListItem
+            // onClick={() => handleToggleStatus(todo.id)}
+            key={`item-${todo.id}`}
+          >
             <ListItemText primary={todo.text} />
+            <ListItemSecondaryAction>
+              <IconButton edge="end" aria-label="edit" onClick={() => readTodo(todo.id)}>
+                <EditIcon />
+              </IconButton>
+              <IconButton edge="end" aria-label="delete" onClick={() => deleteTodo(todo.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
           </ListItem>
         ))}
       </List>
