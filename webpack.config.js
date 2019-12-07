@@ -189,6 +189,7 @@ module.exports = function(_env, argv) {
       historyApiFallback: true, // Enables a fallback to index.html for history-based routing.
       open: true, // Opens the browser after launching the dev server.
       overlay: true, // Displays Webpack errors in the browser window.
+      port: env.PORT
     },
   }
 }
