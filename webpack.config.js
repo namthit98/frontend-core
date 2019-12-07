@@ -1,17 +1,61 @@
 // references:
 // https://www.toptal.com/react/webpack-react-tutorial-pt-1
+// https://www.toptal.com/react/webpack-config-tutorial-pt-2
 
 const path = require('path')
+const fs = require("fs");
 const webpack = require('webpack')
+const dotenv = require("dotenv");
 //Extracts loaded styles into separate files for production use to take advantage of browser caching.
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+function parseEnv(isProduction) {
+  try {
+    let env = {}
+
+    if (fs.existsSync('.env')) {
+      const envConfig = dotenv.parse(fs.readFileSync(".env"));
+
+      env = {
+        ...env,
+        ...envConfig
+      }
+    }
+
+    if(!isProduction && fs.existsSync('.env.development')) {
+      const envConfig = dotenv.parse(fs.readFileSync(".env.development"));
+
+      env = {
+        ...env,
+        ...envConfig
+      }
+    } else if(isProduction && fs.existsSync('.env.production')) {
+      const envConfig = dotenv.parse(fs.readFileSync(".env.production"));
+
+      env = {
+        ...env,
+        ...envConfig
+      }
+    }
+
+    return env
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = function(_env, argv) {
   const isProduction = argv.mode === 'production'
   const isDevelopment = !isProduction
+  const env = parseEnv(isProduction)
+
+  const envKeys = Object.keys(env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(env[next]);
+    return prev;
+  }, {});
 
   return {
     devtool: isDevelopment && 'cheap-module-source-map', // Enables source-map generation in development mode.
@@ -63,7 +107,7 @@ module.exports = function(_env, argv) {
       ],
     },
     resolve: {
-      extensions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx'],
     },
     plugins: [
       isProduction &&
@@ -74,6 +118,10 @@ module.exports = function(_env, argv) {
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src/index.html'),
         inject: true,
+      }),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
+        ...envKeys
       }),
     ].filter(Boolean),
     optimization: {
