@@ -3,9 +3,9 @@
 // https://www.toptal.com/react/webpack-config-tutorial-pt-2
 
 const path = require('path')
-const fs = require("fs");
+const fs = require('fs')
 const webpack = require('webpack')
-const dotenv = require("dotenv");
+const dotenv = require('dotenv')
 //Extracts loaded styles into separate files for production use to take advantage of browser caching.
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
@@ -17,33 +17,33 @@ function parseEnv(isProduction) {
     let env = {}
 
     if (fs.existsSync('.env')) {
-      const envConfig = dotenv.parse(fs.readFileSync(".env"));
+      const envConfig = dotenv.parse(fs.readFileSync('.env'))
 
       env = {
         ...env,
-        ...envConfig
+        ...envConfig,
       }
     }
 
-    if(!isProduction && fs.existsSync('.env.development')) {
-      const envConfig = dotenv.parse(fs.readFileSync(".env.development"));
+    if (!isProduction && fs.existsSync('.env.development')) {
+      const envConfig = dotenv.parse(fs.readFileSync('.env.development'))
 
       env = {
         ...env,
-        ...envConfig
+        ...envConfig,
       }
-    } else if(isProduction && fs.existsSync('.env.production')) {
-      const envConfig = dotenv.parse(fs.readFileSync(".env.production"));
+    } else if (isProduction && fs.existsSync('.env.production')) {
+      const envConfig = dotenv.parse(fs.readFileSync('.env.production'))
 
       env = {
         ...env,
-        ...envConfig
+        ...envConfig,
       }
     }
 
     return env
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
 }
 
@@ -53,9 +53,9 @@ module.exports = function(_env, argv) {
   const env = parseEnv(isProduction)
 
   const envKeys = Object.keys(env).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(env[next]);
-    return prev;
-  }, {});
+    prev[`process.env.${next}`] = JSON.stringify(env[next])
+    return prev
+  }, {})
 
   return {
     devtool: isDevelopment && 'cheap-module-source-map', // Enables source-map generation in development mode.
@@ -82,6 +82,25 @@ module.exports = function(_env, argv) {
         {
           test: /\.css$/,
           use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'],
+        },
+        {
+          test: /\.s[ac]ss$/,
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 2,
+              },
+            },
+            'resolve-url-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
         },
         {
           test: /\.(png|jpg|gif)$/i,
@@ -121,7 +140,7 @@ module.exports = function(_env, argv) {
       }),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
-        ...envKeys
+        ...envKeys,
       }),
     ].filter(Boolean),
     optimization: {

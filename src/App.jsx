@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify'
 import TodoView from './views/Todo/TodoView'
 
 import 'react-toastify/dist/ReactToastify.css'
+import './App.scss'
 
 const store = configureStore()
 
