@@ -28,7 +28,7 @@ ListItemLink.propTypes = {
   icon: PropTypes.element,
   primary: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  className: PropTypes.object,
+  className: PropTypes.string,
 };
 
 export default ListItemLink;

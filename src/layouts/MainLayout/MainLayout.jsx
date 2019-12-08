@@ -63,7 +63,7 @@ export const MainLayout = props => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            Fbeta
           </Typography>
         </Toolbar>
       </AppBar>
