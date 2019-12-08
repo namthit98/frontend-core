@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const CreateTodo = () => {
-  return (
-    <div>
-      CREATE TODO
-    </div>
-  )
-}
+  return <div>CREATE TODO</div>;
+};
 
-export default CreateTodo
+export default CreateTodo;

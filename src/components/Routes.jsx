@@ -1,13 +1,13 @@
-import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import Todos from '../views/Todo/Todos'
-import CreateTodo from '../views/Todo/CreateTodo'
-import NotFound from '../views/NotFound/NotFound'
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Todos from '../views/Todo/Todos';
+import CreateTodo from '../views/Todo/CreateTodo';
+import NotFound from '../views/NotFound/NotFound';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 
-let routeIndex = 0
-let subRouteIndex = 0
+let routeIndex = 0;
+let subRouteIndex = 0;
 export const routes = [
   {
     id: routeIndex++,
@@ -154,7 +154,7 @@ export const routes = [
   //   visibleOnMenu: true,
   //   layout: 'sale',
   // },
-]
+];
 
 const Routes = () => {
   return (
@@ -163,17 +163,17 @@ const Routes = () => {
         if (!route.subRoute) {
           return (
             <Route key={route.id} path={route.path} exact={route.exact} component={route.main} />
-          )
+          );
         }
 
         return route.subRoute.map(route => {
           return (
             <Route key={route.id} path={route.path} exact={route.exact} component={route.main} />
-          )
-        })
+          );
+        });
       })}
     </Switch>
-  )
-}
+  );
+};
 
-export default Routes
+export default Routes;

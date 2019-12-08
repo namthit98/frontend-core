@@ -1,44 +1,45 @@
-import React from 'react'
-import clsx from 'clsx'
-import { useTheme } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import List from '@material-ui/core/List'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import Collapse from '@material-ui/core/Collapse'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
-import { routes } from '../../components/Routes'
-import ListItemLink from '../../components/ListItemLink'
-import { useStyles } from './styles'
+import React from 'react';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import { useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Collapse from '@material-ui/core/Collapse';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import { routes } from '../../components/Routes';
+import ListItemLink from '../../components/ListItemLink';
+import { useStyles } from './styles';
 
 export const MainLayout = props => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
-  const [openSubMenu, setOpenSubMenu] = React.useState(true)
+  const classes = useStyles();
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [openSubMenu, setOpenSubMenu] = React.useState(true);
 
   const handleClick = () => {
-    setOpenSubMenu(!openSubMenu)
-  }
+    setOpenSubMenu(!openSubMenu);
+  };
 
   const handleDrawerOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleDrawerClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -90,7 +91,7 @@ export const MainLayout = props => {
         <List>
           {routes
             .filter(route => route.visibleOnMenu && !route.subRoutes)
-            .map((route, index) => (
+            .map(route => (
               <ListItemLink key={route.id} to={route.path} primary={route.text} icon={route.icon} />
             ))}
         </List>
@@ -98,7 +99,7 @@ export const MainLayout = props => {
 
         {routes
           .filter(route => route.visibleOnMenu && route.subRoutes)
-          .map((route, index) => (
+          .map(route => (
             <React.Fragment key={route.id}>
               <ListItem button onClick={handleClick}>
                 <ListItemIcon>{route.icon}</ListItemIcon>
@@ -116,7 +117,7 @@ export const MainLayout = props => {
                         icon={subRoute.icon}
                         className={classes.nested}
                       />
-                    )
+                    );
                   })}
                 </List>
               </Collapse>
@@ -128,7 +129,11 @@ export const MainLayout = props => {
         {props.children}
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default MainLayout
+MainLayout.propTypes = {
+  children: PropTypes.element,
+};
+
+export default MainLayout;

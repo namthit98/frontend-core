@@ -1,8 +1,8 @@
-import { all, call, put, takeLatest, takeEvery } from 'redux-saga/effects'
+import { all, call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 
-import * as actionTypes from '../store/actions/actionTypes'
-import TodoService from '../services/todo.service'
-import { handleRequestErrorResponse } from '../lib/error-handler'
+import * as actionTypes from '../store/actions/actionTypes';
+import TodoService from '../services/todo.service';
+import { handleRequestErrorResponse } from '../lib/error-handler';
 import {
   createTodoSuccess,
   createTodoFailure,
@@ -14,7 +14,7 @@ import {
   updateTodoFailure,
   deleteTodoSuccess,
   deleteTodoFailure,
-} from '../store/actions/todo.action'
+} from '../store/actions/todo.action';
 
 /**
  * Get Todos
@@ -24,12 +24,12 @@ import {
  */
 export function* getTodos() {
   try {
-    const response = yield call(TodoService.listTodos)
+    const response = yield call(TodoService.listTodos);
 
-    yield put(listTodosSuccess(response))
+    yield put(listTodosSuccess(response));
   } catch (err) {
-    yield put(listTodosFailure())
-    handleRequestErrorResponse(err)
+    yield put(listTodosFailure());
+    handleRequestErrorResponse(err);
   }
 }
 
@@ -41,12 +41,12 @@ export function* getTodos() {
  */
 export function* createTodo({ payload }) {
   try {
-    const response = yield call(TodoService.createTodo, payload)
+    const response = yield call(TodoService.createTodo, payload);
 
-    yield put(createTodoSuccess(response))
+    yield put(createTodoSuccess(response));
   } catch (err) {
-    yield put(createTodoFailure())
-    handleRequestErrorResponse(err)
+    yield put(createTodoFailure());
+    handleRequestErrorResponse(err);
   }
 }
 
@@ -58,12 +58,12 @@ export function* createTodo({ payload }) {
  */
 export function* readTodo({ payload }) {
   try {
-    const response = yield call(TodoService.readTodo, payload)
+    const response = yield call(TodoService.readTodo, payload);
 
-    yield put(readTodoSuccess(response))
+    yield put(readTodoSuccess(response));
   } catch (err) {
-    yield put(readTodoFailure())
-    handleRequestErrorResponse(err)
+    yield put(readTodoFailure());
+    handleRequestErrorResponse(err);
   }
 }
 
@@ -75,12 +75,12 @@ export function* readTodo({ payload }) {
  */
 export function* updateTodo({ payload }) {
   try {
-    const response = yield call(TodoService.updateTodo, payload.id, payload)
+    const response = yield call(TodoService.updateTodo, payload.id, payload);
 
-    yield put(updateTodoSuccess(response))
+    yield put(updateTodoSuccess(response));
   } catch (err) {
-    yield put(updateTodoFailure())
-    handleRequestErrorResponse(err)
+    yield put(updateTodoFailure());
+    handleRequestErrorResponse(err);
   }
 }
 
@@ -92,12 +92,12 @@ export function* updateTodo({ payload }) {
  */
 export function* deleteTodo({ payload }) {
   try {
-    const response = yield call(TodoService.deleteTodo, payload)
+    const response = yield call(TodoService.deleteTodo, payload);
 
-    yield put(deleteTodoSuccess(response))
+    yield put(deleteTodoSuccess(response));
   } catch (err) {
-    yield put(deleteTodoFailure())
-    handleRequestErrorResponse(err)
+    yield put(deleteTodoFailure());
+    handleRequestErrorResponse(err);
   }
 }
 
@@ -111,5 +111,5 @@ export default function* todoSaga() {
     takeLatest(actionTypes.READ_TODO, readTodo),
     takeEvery(actionTypes.UPDATE_TODO, updateTodo),
     takeEvery(actionTypes.DELETE_TODO, deleteTodo),
-  ])
+  ]);
 }

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "dev": "webpack-dev-server --mode development"
+    "dev": "webpack-dev-server --mode development",
+    "prettier": "prettier --write \"src/**/*.{js,jsx,json,css,scss,md}\"",
+    "lint": "eslint \"src/**/*.{js,jsx}\""
   },
   "keywords": [],
   "author": "NamTH",
@@ -21,10 +23,13 @@
     "@babel/preset-react": "^7.7.4",
     "@babel/runtime": "^7.7.4",
     "@svgr/webpack": "^4.3.3",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "css-loader": "^3.2.0",
     "dotenv": "^8.2.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-react": "^7.17.0",
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",

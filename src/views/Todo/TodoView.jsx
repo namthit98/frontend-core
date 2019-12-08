@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { useFormik } from 'formik'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
+import React, { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import {
   listTodos,
   createTodo,
   readTodo,
   updateTodo,
   deleteTodo,
-} from '../../store/actions/todo.action'
-import { makeTodos, makeGetTodo } from '../../store/selectors/todo.selector'
+} from '../../store/actions/todo.action';
+import { makeTodos, makeGetTodo } from '../../store/selectors/todo.selector';
 import {
   TextField,
   Button,
@@ -18,15 +18,15 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
-} from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/Delete'
-import EditIcon from '@material-ui/icons/Edit'
-import { useStyles } from './styles'
-import { todoSchema } from '../../validations/todo.validation'
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import { useStyles } from './styles';
+import { todoSchema } from '../../validations/todo.validation';
 
 const TodoView = ({ todos, todo, createTodo, listTodos, readTodo, updateTodo, deleteTodo }) => {
-  const classes = useStyles()
-  const [counter, setCounter] = useState(0)
+  const classes = useStyles();
+  const [counter, setCounter] = useState(0);
 
   const {
     handleSubmit,
@@ -46,23 +46,23 @@ const TodoView = ({ todos, todo, createTodo, listTodos, readTodo, updateTodo, de
         updateTodo({
           id: todo.id,
           ...values,
-        })
-        return
+        });
+        return;
       }
 
       createTodo({
         text: values.text,
         completed: false,
       }),
-        resetForm()
+        resetForm();
     },
-  })
+  });
 
   useEffect(() => {
     if (todo) {
-      setFieldValue('text', todo.text)
+      setFieldValue('text', todo.text);
     }
-  }, [todo])
+  }, [todo]);
 
   return (
     <div className={classes.wrapper}>
@@ -119,13 +119,13 @@ const TodoView = ({ todos, todo, createTodo, listTodos, readTodo, updateTodo, de
         ))}
       </List>
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
   todos: makeTodos(),
   todo: makeGetTodo(),
-})
+});
 
 export default connect(mapStateToProps, {
   listTodos,
@@ -133,4 +133,4 @@ export default connect(mapStateToProps, {
   readTodo,
   updateTodo,
   deleteTodo,
-})(TodoView)
+})(TodoView);
