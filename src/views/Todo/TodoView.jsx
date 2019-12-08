@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -81,7 +82,7 @@ const TodoView = ({ todos, todo, createTodo, listTodos, readTodo, updateTodo, de
       </form>
       <br />
       <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
-        ADD
+        ADDD
       </Button>
 
       <Button
@@ -120,6 +121,26 @@ const TodoView = ({ todos, todo, createTodo, listTodos, readTodo, updateTodo, de
       </List>
     </div>
   );
+};
+
+TodoView.propTypes = {
+  todos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      text: PropTypes.string,
+      completed: PropTypes.bool,
+    }),
+  ),
+  todo: PropTypes.shape({
+    id: PropTypes.number,
+    text: PropTypes.string,
+    completed: PropTypes.bool,
+  }),
+  createTodo: PropTypes.func,
+  listTodos: PropTypes.func,
+  readTodo: PropTypes.func,
+  updateTodo: PropTypes.func,
+  deleteTodo: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({

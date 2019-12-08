@@ -1,16 +1,9 @@
 {
   "parser": "babel-eslint",
   "plugins": ["react"],
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
   "rules": {
     "react/display-name": [0],
-    "indent": [
-      2,
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
     "linebreak-style": [2, "unix"],
     "quotes": [2, "single"],
     "semi": [2, "always"],
