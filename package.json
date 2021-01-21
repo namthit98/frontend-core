@@ -55,7 +55,7 @@
     "@material-ui/icons": "^4.5.1",
     "clsx": "^1.0.4",
     "formik": "^2.0.6",
-    "immer": "^5.0.0",
+    "immer": "^8.0.1",
     "lodash": "^4.17.15",
     "query-string": "^6.9.0",
     "react": "^16.12.0",
